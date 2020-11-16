@@ -95,9 +95,9 @@ train_cfg = dict(
     rcnn=dict(
         assigner=dict(
             type='MaxIoUAssigner',
-            pos_iou_thr=0.5,
-            neg_iou_thr=0.5,
-            min_pos_iou=0.5,
+            pos_iou_thr=0.7,
+            neg_iou_thr=0.6,
+            min_pos_iou=0.6,
             match_low_quality=True,
             ignore_iof_thr=-1),
         sampler=dict(
@@ -118,14 +118,14 @@ test_cfg = dict(
         nms_thr=0.7,
         min_bbox_size=0),
     rcnn=dict(
-        score_thr=0.6,
-        nms=dict(type='nms', iou_threshold=0.3),
+        score_thr=0.7,
+        nms=dict(type='nms', iou_threshold=0.45),
         max_per_img=100,
         mask_thr_binary=0.45))
 
 
 # optimizer
-optimizer = dict(type='SGD', lr=0.05, momentum=0.9, weight_decay=0.0001) # lr = 0.01 원래
+optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001) # lr = 0.01 원래
 optimizer_config = dict(grad_clip=None)
 # learning policy
 lr_config = dict(
