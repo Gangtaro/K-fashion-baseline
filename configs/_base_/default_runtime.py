@@ -134,7 +134,7 @@ lr_config = dict(
     warmup_iters=500,
     warmup_ratio=0.001,
     step=[8, 11])
-total_epochs = 1 #12
+total_epochs = 2 #12
 
 
 dataset_type = 'CocoDataset'
