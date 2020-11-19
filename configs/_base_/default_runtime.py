@@ -82,7 +82,7 @@ train_cfg = dict(
             pos_fraction=0.5,
             neg_pos_ub=-1,
             add_gt_as_proposals=False),
-        allowed_border=-1,
+        allowed_border=0, #-1
         pos_weight=-1,
         debug=False),
     rpn_proposal=dict(
@@ -95,9 +95,9 @@ train_cfg = dict(
     rcnn=dict(
         assigner=dict(
             type='MaxIoUAssigner',
-            pos_iou_thr=0.7,
-            neg_iou_thr=0.6,
-            min_pos_iou=0.6,
+            pos_iou_thr=0.5,
+            neg_iou_thr=0.5,
+            min_pos_iou=0.5,
             match_low_quality=True,
             ignore_iof_thr=-1),
         sampler=dict(
@@ -109,24 +109,28 @@ train_cfg = dict(
         mask_size=28,
         pos_weight=-1,
         debug=False))
-test_cfg = dict(
-    rpn=dict(
-        nms_across_levels=False,
-        nms_pre=1000,
-        nms_post=1000,
-        max_num=1000,
-        nms_thr=0.7,
-        min_bbox_size=0),
-    rcnn=dict(
-        score_thr=0.7,
-        nms=dict(type='nms', iou_threshold=0.45),
-        max_per_img=100,
-        mask_thr_binary=0.45))
+
+test_cfg = dict(  # Config for testing hyperparameters for rpn and rcnn
+    rpn=dict(  # The config to generate proposals during testing
+        nms_across_levels=False,  # Whether to do NMS for boxes across levels
+        nms_pre=1000,  # The number of boxes before NMS
+        nms_post=1000,  # The number of boxes to be kept by NMS
+        max_num=1000,  # The number of boxes to be used after NMS
+        nms_thr=0.7,  # The threshold to be used during NMS
+        min_bbox_size=0),  # The allowed minimal box size
+    rcnn=dict(  # The config for the roi heads.
+        score_thr=0.5,  # Threshold to filter out boxes
+        nms=dict(  # Config of nms in the second stage
+            type='nms',  # Type of nms
+            iou_thr=0.3),  # NMS threshold
+        max_per_img=100,  # Max number of detections of each image
+        mask_thr_binary=0.45))  # Threshold of mask prediction
+
 
 
 # optimizer
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001) # lr = 0.01 원래
-optimizer_config = dict(grad_clip=None)
+optimizer = dict(type='SGD', lr=0.03, momentum=0.9, weight_decay=0.0001) # lr = 0.01 원래
+optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2)) #grad_clip = NONE
 # learning policy
 lr_config = dict(
     policy='step',
