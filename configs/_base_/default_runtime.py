@@ -142,7 +142,7 @@ total_epochs = 2 #12
 
 
 dataset_type = 'CocoDataset'
-data_root = '/content/drive/My Drive/k-fashion/'
+data_root = '/content/drive/My Drive/k-fashion/dataset'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
@@ -175,13 +175,13 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + 'train.json',
-        img_prefix=data_root + 'train_all',
+        ann_file=data_root + 'seed2013115071/train.json',
+        img_prefix=data_root + 'train',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'test_public.json', #'test_private'
-        img_prefix=data_root + 'test_all',
+        ann_file=data_root + 'seed2013115071/val.json', #'test_private'
+        img_prefix=data_root + 'valid',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
